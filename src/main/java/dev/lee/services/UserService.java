@@ -20,7 +20,6 @@ import java.util.Optional;
  *     <li>Create User</li>
  *     <li>Update User Information</li>
  *     <li>Get Users by ID</li>
- *     <li>Get Users by Email</li>
  *     <li>Get All Users</li>
  * </ul>
  */

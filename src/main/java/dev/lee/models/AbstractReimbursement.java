@@ -4,6 +4,8 @@ import dev.lee.models.Status;
 import dev.lee.models.User;
 
 import java.util.Objects;
+import java.util.Date;
+
 
 /**
  * This AbstractReimbursement class defines a minimum functionality for
@@ -27,12 +29,13 @@ public class AbstractReimbursement {
     private User resolver;
     private double amount;
     private String description;
+    private Date date;
 
     public AbstractReimbursement() {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount, String description) {
+    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount, String description, Date date) {
         super();
         this.id = id;
         this.status = status;
@@ -40,10 +43,12 @@ public class AbstractReimbursement {
         this.resolver = resolver;
         this.amount = amount;
         this.description = description;
-        // add date and time (java.sql.date)
+        this.date = date;
     }
 
+    public Date getDate() {return date;}
 
+    public void setDate(Date date) {this.date = date;}
 
     public String getDescription() { return description;  }
 
@@ -61,8 +66,9 @@ public class AbstractReimbursement {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public String setStatus(Status status) {
         this.status = status;
+        return status.toString();
     }
 
     public User getAuthor() {
@@ -99,7 +105,7 @@ public class AbstractReimbursement {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, author, resolver, amount);
+        return Objects.hash(id, status, author, resolver, amount,description);
     }
 
     @Override
@@ -111,6 +117,7 @@ public class AbstractReimbursement {
                 ", resolver=" + resolver +
                 ", amount=" + amount +
                 ", description=" + description +
+                ", date=" + date +
                 '}';
     }
 }

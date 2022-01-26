@@ -1,8 +1,11 @@
 package dev.lee.services;
 
 import dev.lee.models.Reimbursement;
+import dev.lee.models.Role;
 import dev.lee.models.Status;
 import dev.lee.models.User;
+import dev.lee.repositories.ReimbursementDAO;
+import dev.lee.repositories.UserDAO;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +28,7 @@ import java.util.List;
  * </ul>
  */
 public class ReimbursementService {
-
+       private  ReimbursementDAO reimbursementDAO = new ReimbursementDAO();
     /**
      * <ul>
      *     <li>Should ensure that the user is logged in as a Finance Manager</li>
@@ -40,14 +43,32 @@ public class ReimbursementService {
      * The Resolver should be null. Additional fields may be null.
      * After processing, the reimbursement will have its status changed to either APPROVED or DENIED.
      */
+    //method to login
+    public boolean login(String username, String password, Role role) {
+        //first we need the help of the userDAO by username
+        User u = UserDAO.getByUsername(username);
+
+        //check if user exists
+        if (u != null) {
+            //check to make credentials match
+            if (username.equals(u.getUsername()) && password.equals(u.getPassword()) && role.equals(Role.FINANCE_MANAGER));
+            return true;
+        }
+        System.out.println("You do not have access.");//this would be a great place to use a custom exception.
+        return false;
+    }
+
+
     public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver) {
-        return null;
+        ReimbursementDAO.process(unprocessedReimbursement, finalStatus, resolver);
+        return unprocessedReimbursement;
     }
 
     /**
      * Should retrieve all reimbursements with the correct status.
      */
     public List<Reimbursement> getReimbursementsByStatus(Status status) {
-        return Collections.emptyList();
+        List<Reimbursement> r = ReimbursementDAO.getByStatus(status);
+        return r;
     }
 }

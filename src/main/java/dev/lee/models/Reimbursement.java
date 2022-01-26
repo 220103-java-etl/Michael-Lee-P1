@@ -1,5 +1,8 @@
 package dev.lee.models;
 
+import java.sql.Date;
+
+
 /**
  * This concrete Reimbursement class can include additional fields that can be used for
  * extended functionality of the ERS application.
@@ -22,7 +25,7 @@ public class Reimbursement extends AbstractReimbursement {
      * This includes the minimum parameters needed for the {@link com.revature.models.AbstractReimbursement} class.
      * If other fields are needed, please create additional constructors.
      */
-    public Reimbursement(int id, Status status, User author, User resolver, double amount,String description) {
-        super(id, status, author, resolver, amount, description);
+    public Reimbursement(int id, Status status, User author, User resolver, double amount,String description, Date date) {
+        super(id, status, author, resolver, amount, description, date);
     }
 }

@@ -93,7 +93,7 @@ public class UserDAO  {
             ps.setString(2, employee_to_register.getLastName());
             ps.setString(3, employee_to_register.getUsername());
             ps.setString(4, employee_to_register.getPassword());
-            ps.setString(5, employee_to_register.setRole(Role.valueOf(EMPLOYEE.toString())));
+            ps.setString(5, employee_to_register.getRole().toString());
             //Execute the statement and save the Result Set into an object
             ResultSet rs = ps.executeQuery();
 
@@ -135,7 +135,7 @@ public class UserDAO  {
             ps.setString(2, user.getLastName());
             ps.setString(3, user.getUsername());
             ps.setString(4, user.getPassword());
-            ps.setString(5, user.setRole(Role.valueOf(EMPLOYEE.toString())));
+            ps.setString(5, user.getRole().toString());
             ps.setInt(6, user.getId());
 
             ps.executeUpdate();
@@ -147,7 +147,7 @@ public class UserDAO  {
 
 
     public void delete(Integer id) {
-       String sql = "delete from authors where id = ?";
+       String sql = "delete from users where id = ?";
 
        try (Connection conn = cu.getConnection()) {
            PreparedStatement ps = conn.prepareStatement(sql);

@@ -1,8 +1,10 @@
 package dev.lee.repositories;
 
 
+import dev.lee.exceptions.*;
 import dev.lee.models.Reimbursement;
 import dev.lee.models.Status;
+import dev.lee.models.User;
 import dev.lee.util.ConnectionUtil;
 
 import java.sql.Connection;
@@ -12,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 
 
@@ -58,7 +59,7 @@ public class ReimbursementDAO {
     }
      // Should retrieve a List of Reimbursements from the DB with the corresponding Status or an empty List if there are no matches.
 
-    public List<Reimbursement> getByStatus(Status status) {
+    public static List<Reimbursement> getByStatus(Status status) {
         List<Reimbursement> reim = new ArrayList<>();
         //this is our sql statement -> we want it to return all records from the table
         String sql = "select * from reimbursements where reim_status =" + status+";";
@@ -98,9 +99,54 @@ public class ReimbursementDAO {
      * </ul>
      */
     public Reimbursement update(Reimbursement unprocessedReimbursement) {
-        return null;
+
+            String sql = "update users set reim_description = ?, reim_cost = ?, author_id = ?, reim_resolver = ?,reim_status = ?  where reim_id = ?";
+            try (Connection conn = cu.getConnection()) {
+
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, unprocessedReimbursement.getDescription());
+                ps.setDouble(2, unprocessedReimbursement.getAmount());
+                ps.setInt(3, unprocessedReimbursement.getAuthor().getId());
+                ps.setInt(4, unprocessedReimbursement.getResolver().getId());
+                ps.setString(5, unprocessedReimbursement.getStatus().toString());
+                ps.setInt(6, unprocessedReimbursement.getId());
+
+                ps.executeUpdate();
+
+            } catch (UpdateUnsuccessfulException | SQLException e) {
+                e.printStackTrace();
+            }
+        return unprocessedReimbursement;
     }
 
+    public static Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver){
+        String sql = "update reimbursements set reim_resolver = ?,reim_status = ?  where reim_id = ?";
+        try (Connection conn = cu.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, resolver.getId());
+            ps.setString(2, finalStatus.toString());
+            ps.setInt(3, unprocessedReimbursement.getResolver().getId());
+            ps.executeUpdate();
+
+        } catch (UpdateUnsuccessfulException | SQLException e) {
+            e.printStackTrace();
+        }
+        return unprocessedReimbursement;
+    }
+
+    //Be able to delete a particular reimbursement if you give the reim ID.
+    public void delete(Integer id) {
+        String sql = "delete from reimbursements where reim_id = ?";
+
+        try (Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 
