@@ -12,6 +12,13 @@ import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
     UserService us = new UserService();
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("login.html");
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         //collecting values that will be passed in from login form
