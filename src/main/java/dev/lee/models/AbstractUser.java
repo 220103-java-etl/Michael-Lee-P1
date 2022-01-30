@@ -10,6 +10,7 @@ public class AbstractUser {
     private String username;
     private String password;
     private Role role;
+    private String location;
 
     // Default Constructor
     public AbstractUser() {
@@ -17,12 +18,13 @@ public class AbstractUser {
     }
 
     //Full Constructor
-    public AbstractUser(int id, String username, String password, Role role) {
+    public AbstractUser(int id, String username, String password, Role role, String location) {
         super();
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.location = location;
     }
 
     //getter for first Name
@@ -82,9 +84,13 @@ public class AbstractUser {
 
     //setter for role
     public String setRole(Role role) {
-        this.role = role;
-        return role.toString();
+        this.role = role; return role.toString();
     }
+
+    public String getLocation() {return location;
+    }
+
+    public void setLocation(String location) {this.location = location;}
 
     @Override
     public boolean equals(Object o) {
@@ -103,9 +109,12 @@ public class AbstractUser {
     public String toString() {
         return "AbstractUser{" +
                 "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", location='" + location + '\'' +
                 '}';
     }
 }

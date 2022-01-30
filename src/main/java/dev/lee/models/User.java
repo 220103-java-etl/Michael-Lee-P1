@@ -9,18 +9,20 @@ public class User extends AbstractUser {
     private String username;
     private String password;
     private String role;
+    private String location;
 
     // Constructors
 
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String username, String password, Role role) {
+    public User(int id, String firstName, String lastName, String username, String password, Role role, String location) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
+        this.location = location;
     }
 
     public User(int id, String username, String password, Role role) {

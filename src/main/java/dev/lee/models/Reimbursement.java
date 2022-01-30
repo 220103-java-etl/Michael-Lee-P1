@@ -25,7 +25,7 @@ public class Reimbursement extends AbstractReimbursement {
      * This includes the minimum parameters needed for the {@link com.revature.models.AbstractReimbursement} class.
      * If other fields are needed, please create additional constructors.
      */
-    public Reimbursement(int id, Status status, User author, User resolver, double amount,String description, Date date) {
-        super(id, status, author, resolver, amount, description, date);
+    public Reimbursement(int id, Status status, User author, User resolver, double amount,String description, Date date, RType type) {
+        super(id, status, author, resolver, amount, description, date, type);
     }
 }

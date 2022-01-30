@@ -30,12 +30,14 @@ public class AbstractReimbursement {
     private double amount;
     private String description;
     private Date date;
+    private RType type;
 
     public AbstractReimbursement() {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount, String description, Date date) {
+    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount, String description, Date date,
+    RType type) {
         super();
         this.id = id;
         this.status = status;
@@ -44,6 +46,7 @@ public class AbstractReimbursement {
         this.amount = amount;
         this.description = description;
         this.date = date;
+        this.type = type;
     }
 
     public Date getDate() {return date;}
@@ -94,6 +97,10 @@ public class AbstractReimbursement {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    public RType getType() {return type;}
+
+    public void setType(RType type) {this.type = type;}
 
     @Override
     public boolean equals(Object o) {

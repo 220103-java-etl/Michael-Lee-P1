@@ -45,7 +45,11 @@ public class ConnectionUtil {
 
         Connection conn = null;
         //Get credentials needed to access the DB from the Properties Object we created above (which gets those from the resources file)
-
+        try {
+            Class.forName(dbProp.getProperty("driver"));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String url = dbProp.getProperty("url");
         String username = dbProp.getProperty("username");
         String password = dbProp.getProperty("password");

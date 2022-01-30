@@ -82,7 +82,7 @@ public class UserDAO  {
     }
 
     public User create(User employee_to_register) {
-        String sql = "insert into users values(default, ?, ?, ?, ?, ?);";
+        String sql = "insert into users values(default, ?, ?, ?, ?, ?,?);";
         // insert questions marks and apss in paramters like getUsername
         try (Connection conn = cu.getConnection()) {// proper syntax for try with resources used to automatically
             // close resources after the try/catch/finally block
@@ -94,6 +94,7 @@ public class UserDAO  {
             ps.setString(3, employee_to_register.getUsername());
             ps.setString(4, employee_to_register.getPassword());
             ps.setString(5, employee_to_register.getRole().toString());
+            ps.setString(6, employee_to_register.getLocation());
             //Execute the statement and save the Result Set into an object
             ResultSet rs = ps.executeQuery();
 
@@ -104,7 +105,7 @@ public class UserDAO  {
     }
 
     public User createManager(User manager_to_register) {
-        String sql = "insert into users values(default, ?, ?, ?, ?, ?);";
+        String sql = "insert into users values(default, ?, ?, ?, ?, ?,?);";
         // insert questions marks and apss in parameters like getUsername
         try (Connection conn = cu.getConnection()) {// proper syntax for try with resources used to automatically
             // close resources after the try/catch/finally block
@@ -116,6 +117,7 @@ public class UserDAO  {
             ps.setString(3, manager_to_register.getUsername());
             ps.setString(4, manager_to_register.getPassword());
             ps.setString(5, manager_to_register.setRole(Role.valueOf(FINANCE_MANAGER.toString())));
+            ps.setString(6, manager_to_register.getLocation());
             //Execute the statement and save the Result Set into an object
             ResultSet rs = ps.executeQuery();
 
@@ -127,7 +129,7 @@ public class UserDAO  {
 
 
     public void update(User user) {
-        String sql = "update users set first_name = ?, last_name = ?, username = ?, password = ?,role = ?  where id = ?";
+        String sql = "update users set first_name = ?, last_name = ?, username = ?, password = ?,role = ?, location = ?  where id = ?";
         try (Connection conn = cu.getConnection()) {
 
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -136,7 +138,8 @@ public class UserDAO  {
             ps.setString(3, user.getUsername());
             ps.setString(4, user.getPassword());
             ps.setString(5, user.getRole().toString());
-            ps.setInt(6, user.getId());
+            ps.setString(6, user.getLocation());
+            ps.setInt(7, user.getId());
 
             ps.executeUpdate();
 
