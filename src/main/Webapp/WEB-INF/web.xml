@@ -15,6 +15,19 @@
         <servlet-name>Create</servlet-name>
         <servlet-class>dev.lee.servlets.CreateServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManagerMenu</servlet-name>
+        <servlet-class>dev.lee.servlets.ManagerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EmployeeMenu</servlet-name>
+        <servlet-class>dev.lee.servlets.EmployeeServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ReimbursementServlet</servlet-name>
+        <servlet-class>dev.lee.servlets.ReimbursementServlet</servlet-class>
+    </servlet>
 
     <servlet>
         <servlet-name>Summary</servlet-name>
@@ -32,6 +45,18 @@
     <servlet-mapping>
         <servlet-name>Summary</servlet-name>
         <url-pattern>/summary</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerMenu</servlet-name>
+        <url-pattern>/manager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmployeeMenu</servlet-name>
+        <url-pattern>/employee</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Reimbursement</servlet-name>
+        <url-pattern>/reimbursement</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>welcome_page.html</welcome-file>

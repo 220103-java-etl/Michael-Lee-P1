@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Reimbursement</title>
+</head>
+<body>
+    <h1>Please input your reimbursement information on the required fields below.</h1>
+    <form action="create" target="self" method="post">
+        <label>Username:
+            <input type="text" name="username" required>
+        </label></br></br>
+        <label>Amount(USD):
+            <input type="integer" name="amount" required>
+        </label></br></br>
+        <label>Please provide a description/reason for your reimbursement: (500 char)
+            </br>
+            <input type="text" name="description" required size="100">
+        </label></br>
+        <p>
+            <label for="type">Type of Reimbursement:</label>
+                    <select id="RType" name="RType">
+                        <option value="">Please make a selection</option>
+                        <option value="University Course">Employee</option>
+                        <option value="Seminar">Finance Manager</option>
+                        <option value="Technical Training">Employee</option>
+                        <option value="Finance Manager">Finance Manager</option>
+                        <option value="Certificate">Employee</option>
+                        <option value="CPC">Finance Manager</option>
+                        <option value="Other">Finance Manager</option>
+                    </select>
+        </p>
+        <p>
+            <label for="grade">Grading Criteria:</label>
+                    <select id="GType" name="GType">
+                        <option value="4.0 Grading Scale">Please make a selection</option>
+                        <option value="Presentation">Employee</option>
+                        <option value="Pass/Fail">Finance Manager</option>
+                    </select>
+        </p>
+        <input type="submit" value="Submit">
+        </form>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package dev.lee.servlets;
 
+import dev.lee.models.Role;
 import dev.lee.models.User;
 import dev.lee.services.UserService;
 
@@ -35,7 +36,10 @@ public class LoginServlet extends HttpServlet {
             //System.out.println(u.getUsername()); have it as a check when testing login
             // System.out.println(u.getPassword());
             session.setAttribute("logged_user", u);
-            response.sendRedirect("menu.html"); //Main menu to submit new reimbursement, check status etc
+            if (u.getRole().equals(Role.FINANCE_MANAGER)){
+                response.sendRedirect("manager_menu.html");
+            }else{ response.sendRedirect("employee_menu.html");}
+            //Main menu to submit new reimbursement, check status etc
         } else {
             response.sendRedirect("login_error.html");
         }
