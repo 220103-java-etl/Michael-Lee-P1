@@ -1,5 +1,7 @@
 package dev.lee.app;
 import dev.lee.models.User;
+import dev.lee.repositories.UserDAO;
+import dev.lee.services.UserService;
 //import dev.lee.repositories.UserDAO;
 
 
@@ -8,10 +10,14 @@ import java.util.Scanner;
 public class AppDriver {
 
     private static Scanner scan = new Scanner(System.in);
+
+
+
     //private static UserDAO userDAO = new UserDAO();
 
     public static void main(String[] args) {
-
+       // UserService us = new UserService();
+        //us.getByUsername("mlee9715");
         //Scanner pass
         System.out.println("Welcome to the Employee Reimbursement App!");
         System.out.println("Please choose an option to continue.");

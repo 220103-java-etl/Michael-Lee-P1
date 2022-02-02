@@ -18,9 +18,10 @@ public class AbstractUser {
     }
 
     //Full Constructor
-    public AbstractUser(int id, String username, String password, Role role, String location) {
-        super();
+    public AbstractUser(int id,String firstName, String lastName, String username, String password, Role role, String location) {
         this.id = id;
+        this.firstName=firstName;
+        this.lastName=lastName;
         this.username = username;
         this.password = password;
         this.role = role;

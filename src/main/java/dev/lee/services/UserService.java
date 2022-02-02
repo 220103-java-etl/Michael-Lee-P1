@@ -27,20 +27,27 @@ public class UserService {
     private UserDAO userDAO = new UserDAO();
 
     //method to login
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
         //first we need the help of the userDAO by username
-        User u = UserDAO.getByUsername(username);
+      User u = UserDAO.getByUsername(username);
 
         //check if user exists
         if (u != null) {
             //check to make credentials match
             if (username.equals(u.getUsername()) && password.equals(u.getPassword())) ;
-            return true;
+            return u;
         }
         System.out.println("Credentials do not match");//this would be a great place to use a custom exception.
-        return false;
+        return null;
     }
 
+    public void createEmployee(User u){
+        userDAO.create(u);
+    }
+
+    public void createManager(User u){
+        userDAO.create(u);
+    }
 
 
     // * Should retrieve a User with the corresponding username or an empty optional if there is no match.

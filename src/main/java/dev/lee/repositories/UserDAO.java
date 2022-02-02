@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static dev.lee.models.Role.EMPLOYEE;
 import static dev.lee.models.Role.FINANCE_MANAGER;
@@ -32,17 +33,12 @@ public class UserDAO  {
             //Execute the statement and save the Result Set into an object
             ResultSet rs = ps.executeQuery();
 
-            User u = null;
-            while (rs.next()) {
-                u = new User();
-                rs.getInt("user_id");
-                rs.getString("username");
-                rs.getString("first_name");
-                rs.getString("last_name");
-                rs.getString("role");
-                rs.getString("password");
+            if (rs.next()) {
+                User  u = new User(rs.getInt("user_id"), rs.getString("user_first_name"), rs.getString("user_last_name"),
+                        rs.getString("username"),  rs.getString("user_password"),Role.valueOf(rs.getString("user_role").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
+                        rs.getString("user_location"));
+                return u;
             }
-            return u;
         } catch (UsernameNotUniqueException | SQLException e) {
             e.printStackTrace();
         }
@@ -83,7 +79,7 @@ public class UserDAO  {
 
     public User create(User employee_to_register) {
         String sql = "insert into users values(default, ?, ?, ?, ?, ?,?);";
-        // insert questions marks and apss in paramters like getUsername
+        // insert questions marks and pass in parameters like getUsername
         try (Connection conn = cu.getConnection()) {// proper syntax for try with resources used to automatically
             // close resources after the try/catch/finally block
 

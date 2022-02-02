@@ -21,20 +21,6 @@ public class EmployeeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-        HttpSession session = request.getSession(false);
-        PrintWriter out = response.getWriter();
-        if (session == null) {
-            out.write("<h3> Please login or create and account</h3>");
-            out.write("<a href='login.html'>Click Here</a>");
-        } else {
-            User u = (User) session.getAttribute("user");
-            out.write("<h1>Hello " + u.getFirstName() + ", what would you like to do?");
 
-
-            String fName = request.getParameter("fName");
-            String city = request.getParameter("fName");
-            String email = request.getParameter("fName");
-            String contact = request.getParameter("fName");
         }
-    }
 }

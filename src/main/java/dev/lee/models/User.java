@@ -13,16 +13,10 @@ public class User extends AbstractUser {
 
     // Constructors
 
-    public User() {
-    }
+    public User() { }
 
     public User(int id, String firstName, String lastName, String username, String password, Role role, String location) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.location = location;
+        super (id,firstName,lastName,username, password, role, location);
     }
 
     public User(int id, String username, String password, Role role) {

@@ -2,6 +2,7 @@ package dev.lee.servlets;
 
 import dev.lee.models.Role;
 import dev.lee.models.User;
+import dev.lee.services.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class CreateServlet extends HttpServlet {
-
+UserService us = new UserService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("create.html");
@@ -45,10 +46,12 @@ public class CreateServlet extends HttpServlet {
                 u.setRole(Role.FINANCE_MANAGER);
                 session.setAttribute("logged_manager", u);
                 response.sendRedirect("manager_menu.html");
+                us.createManager(u);
             } else {
                 u.setRole(Role.EMPLOYEE);
                 session.setAttribute("logged_employee", u);
                 response.sendRedirect("employee_menu.html");
+                us.createEmployee(u);
             }
 
             //System.out.println(u.getUsername()); have it as a check when testing login

@@ -24,15 +24,14 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html");
         //collecting values that will be passed in from login form
         String username = request.getParameter("username");
-        String pass = request.getParameter("password");
-
-        if (us.login(username, pass)) {
-            //create session
-            HttpSession session = request.getSession();
+        String pass = request.getParameter("pass");
             //create user object
-            User u = new User();
-            u.setUsername(username);
-            u.setPassword(pass);
+           User u = us.login(username, pass);
+           if (u != null ){
+               //create session
+            HttpSession session = request.getSession();
+
+           //System.out.println(u);
             //System.out.println(u.getUsername()); have it as a check when testing login
             // System.out.println(u.getPassword());
             session.setAttribute("logged_user", u);
