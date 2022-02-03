@@ -43,25 +43,14 @@ public class ReimbursementService {
      * The Resolver should be null. Additional fields may be null.
      * After processing, the reimbursement will have its status changed to either APPROVED or DENIED.
      */
-    //method to login
-    public boolean login(String username, String password, Role role) {
-        //first we need the help of the userDAO by username
-        User u = UserDAO.getByUsername(username);
-
-        //check if user exists
-        if (u != null) {
-            //check to make credentials match
-            if (username.equals(u.getUsername()) && password.equals(u.getPassword()) && role.equals(Role.FINANCE_MANAGER));
-            return true;
-        }
-        System.out.println("You do not have access.");//this would be a great place to use a custom exception.
-        return false;
-    }
-
 
     public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver) {
         ReimbursementDAO.process(unprocessedReimbursement, finalStatus, resolver);
         return unprocessedReimbursement;
+    }
+    public Reimbursement createReimbursement(Reimbursement newReim){
+        reimbursementDAO.create(newReim);
+        return newReim;
     }
 
     /**
@@ -71,4 +60,10 @@ public class ReimbursementService {
         List<Reimbursement> r = ReimbursementDAO.getByStatus(status);
         return r;
     }
+
+
+public Reimbursement addMessage(Reimbursement reim ,String message){
+    reim.setMessage(message);
+    return reim;
+}
 }

@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Please input your reimbursement information on the required fields below.</h1>
-    <form action="create" target="self" method="post">
+    <form action="reimbursement" target="self" method="post">
         <label>Username:
             <input type="text" name="username" required>
         </label></br></br>
@@ -20,27 +20,34 @@
             <input type="text" name="description" required size="100">
         </label></br>
         <p>
-            <label for="type">Type of Reimbursement:</label>
+            <label>Type of Reimbursement:</label>
                     <select id="RType" name="RType">
                         <option value="">Please make a selection</option>
-                        <option value="University Course">Employee</option>
-                        <option value="Seminar">Finance Manager</option>
-                        <option value="Technical Training">Employee</option>
-                        <option value="Finance Manager">Finance Manager</option>
-                        <option value="Certificate">Employee</option>
-                        <option value="CPC">Finance Manager</option>
-                        <option value="Other">Finance Manager</option>
+                        <option value="UNIVERSITY_COURSE">University Course</option>
+                        <option value="SEMINAR">Seminar</option>
+                        <option value="TRAINING">Technical Training</option>
+                        <option value="CERTIFICATE">Certificate</option>
+                        <option value="CPC">Certificate Preparation Course</option>
+                        <option value="OTHER">Other</option>
                     </select>
         </p>
         <p>
-            <label for="grade">Grading Criteria:</label>
+            <label>Grading Criteria:</label>
                     <select id="GType" name="GType">
-                        <option value="4.0 Grading Scale">Please make a selection</option>
-                        <option value="Presentation">Employee</option>
-                        <option value="Pass/Fail">Finance Manager</option>
+                        <option value="">Please make a selection</option>
+                        <option value="LETTER_GRADE">4.0 Letter Grade (A,B,C,D,F)</option>
+                        <option value="PRESENTATION">Presentation</option>
+                        <option value="PASS_FAIL">Pass/Fail</option>
                     </select>
-        </p>
-        <input type="submit" value="Submit">
-        </form>
+        </p>   
+        <p>    <label>Will the event begin in less than 2 weeks?</label>
+            <select id="message" name="message">
+            <option value="">Please make a selection</option>
+            <option value="URGENT">Yes</option>
+            <option value="">No</option>
+        </select>
+       </p>
+       <input type="submit" value="Submit">
+    </form>
 </body>
 </html>

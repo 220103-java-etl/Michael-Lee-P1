@@ -7,10 +7,7 @@ import dev.lee.models.Status;
 import dev.lee.models.User;
 import dev.lee.util.ConnectionUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +17,29 @@ import java.util.List;
 public class ReimbursementDAO {
     static ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 
+    public Reimbursement create(Reimbursement reim_to_create) {
+        String sql = "insert into reimbursements values(default, ?, ?, ?, ?, ?,?,?);";
+        // insert questions marks and pass in parameters like getUsername
+        try (Connection conn = cu.getConnection()) {// proper syntax for try with resources used to automatically
+            // close resources after the try/catch/finally block
+
+            //Prepare the Statement(Inside try block)
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setDouble(1, reim_to_create.getAmount());
+            ps.setString(2, reim_to_create.getStatus().toString());
+            ps.setInt(3, reim_to_create.getAuthor().getId());
+            ps.setInt(4,0);
+            ps.setDate(5, reim_to_create.getDate());
+            ps.setString(6, reim_to_create.getDescription());
+            ps.setString(7, reim_to_create.getMessage());
+            //Execute the statement and save the Result Set into an object
+            ResultSet rs = ps.executeQuery();
+
+        } catch (UsernameNotUniqueException | SQLException e) {
+            e.printStackTrace();
+        }
+        return reim_to_create;
+    }
     /**
      * Should retrieve a Reimbursement from the DB with the corresponding id or an empty optional if there is no match.
      */
@@ -126,7 +146,7 @@ public class ReimbursementDAO {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, resolver.getId());
             ps.setString(2, finalStatus.toString());
-            ps.setInt(3, unprocessedReimbursement.getResolver().getId());
+            ps.setInt(3, unprocessedReimbursement.getAuthor().getId());
             ps.executeUpdate();
 
         } catch (UpdateUnsuccessfulException | SQLException e) {
@@ -147,6 +167,21 @@ public class ReimbursementDAO {
             e.printStackTrace();
         }
     }
+
+    public Reimbursement addMessage(Reimbursement reim, String message) {
+        String sql = "update from reimbursements set message = ? where reim_id = ?;";
+
+        try (Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, message);
+            ps.setInt(2, reim.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reim;
+    }
+
 
 }
 

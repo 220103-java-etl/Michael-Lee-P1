@@ -1,8 +1,5 @@
 package dev.lee.models;
 
-import dev.lee.models.Status;
-import dev.lee.models.User;
-
 import java.util.Objects;
 import java.util.Date;
 
@@ -31,13 +28,15 @@ public class AbstractReimbursement {
     private String description;
     private Date date;
     private RType type;
+    private GType grade;
+    private String message;
 
     public AbstractReimbursement() {
         super();
     }
 
     public AbstractReimbursement(int id, Status status, User author, User resolver, double amount, String description, Date date,
-    RType type) {
+    RType type, String message, GType grade) {
         super();
         this.id = id;
         this.status = status;
@@ -47,9 +46,11 @@ public class AbstractReimbursement {
         this.description = description;
         this.date = date;
         this.type = type;
+        this.grade = grade;
+        this.message = message;
     }
 
-    public Date getDate() {return date;}
+    public java.sql.Date getDate() {return (java.sql.Date) date;}
 
     public void setDate(Date date) {this.date = date;}
 
@@ -102,6 +103,14 @@ public class AbstractReimbursement {
 
     public void setType(RType type) {this.type = type;}
 
+    public String getMessage() {return message;}
+
+    public void setMessage(String message) {this.message = message;}
+
+    public GType getGrade() {return grade;}
+
+    public void setGrade(GType grade) {this.grade = grade;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -123,8 +132,10 @@ public class AbstractReimbursement {
                 ", author=" + author +
                 ", resolver=" + resolver +
                 ", amount=" + amount +
-                ", description=" + description +
+                ", description='" + description + '\'' +
                 ", date=" + date +
+                ", type=" + type +
+                ", message='" + message + '\'' +
                 '}';
     }
 }

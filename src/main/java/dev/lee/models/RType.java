@@ -12,19 +12,19 @@ public enum RType {
         @Override
         public String toString(){ return "Seminar";}
     },
-    CPC {
+    CPC{
         @Override
         public String toString() {return "CPC";}
     },
-    CERTIFICATE {
+    CERTIFICATE{
         @Override
         public String toString() {return "Certificate";}
     },
-    TRAINING {
+    TRAINING{
         @Override
         public String toString() {return "Technical Training";}
     },
-    OTHER {
+    OTHER{
         @Override
         public String toString () {return "Other/Misc";}
     }

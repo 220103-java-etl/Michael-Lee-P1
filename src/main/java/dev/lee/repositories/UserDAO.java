@@ -62,12 +62,9 @@ public class UserDAO  {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                User u = new User();
-                rs.getInt("user_id");
-                rs.getString("first_name");
-                rs.getString("last_name");
-                rs.getString("role");
-                rs.getString("password");
+                User  u = new User(rs.getInt("user_id"), rs.getString("user_first_name"), rs.getString("user_last_name"),
+                        rs.getString("username"),  rs.getString("user_password"),Role.valueOf(rs.getString("user_role").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
+                        rs.getString("user_location"));
                 users.add(u);
             }
             return users;
