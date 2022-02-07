@@ -2,9 +2,7 @@ package dev.lee.repositories;
 
 
 import dev.lee.exceptions.*;
-import dev.lee.models.Reimbursement;
-import dev.lee.models.Status;
-import dev.lee.models.User;
+import dev.lee.models.*;
 import dev.lee.util.ConnectionUtil;
 
 import java.sql.*;
@@ -17,8 +15,9 @@ import java.util.List;
 public class ReimbursementDAO {
     static ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 
+
     public Reimbursement create(Reimbursement reim_to_create) {
-        String sql = "insert into reimbursements values(default, ?, ?, ?, ?, ?,?,?);";
+        String sql = "insert into reimbursements values(default, ?, ?, ?, ?, ?,?,?,?,?);";
         // insert questions marks and pass in parameters like getUsername
         try (Connection conn = cu.getConnection()) {// proper syntax for try with resources used to automatically
             // close resources after the try/catch/finally block
@@ -27,11 +26,13 @@ public class ReimbursementDAO {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setDouble(1, reim_to_create.getAmount());
             ps.setString(2, reim_to_create.getStatus().toString());
-            ps.setInt(3, reim_to_create.getAuthor().getId());
+            ps.setInt(3, reim_to_create.getAuthorId());
             ps.setInt(4,0);
             ps.setDate(5, reim_to_create.getDate());
-            ps.setString(6, reim_to_create.getDescription());
-            ps.setString(7, reim_to_create.getMessage());
+            ps.setString(6, reim_to_create.getType().toString());
+            ps.setString(7, reim_to_create.getGrade().toString());
+            ps.setString(8, reim_to_create.getDescription());
+            ps.setString(9, reim_to_create.getMessage());
             //Execute the statement and save the Result Set into an object
             ResultSet rs = ps.executeQuery();
 
@@ -43,12 +44,12 @@ public class ReimbursementDAO {
     /**
      * Should retrieve a Reimbursement from the DB with the corresponding id or an empty optional if there is no match.
      */
-    public List<Reimbursement> getById(int id) {//returns single reimbursement
+    public static List<Reimbursement> getById(int id) {//returns single reimbursement
         //return all users from the DB
 
         List<Reimbursement> reim = new ArrayList<>();
         //this is our sql statement -> we want it to return all records from the table
-        String sql = "select * from u where user_id = ? AND left join reimbursements r on (u.id = r.author_id);";
+        String sql = "select * from users u where user_id = ? AND left join reimbursements r on (u.id = r.author_id);";
 
         try (Connection conn = cu.getConnection()){// proper syntax for try with resources used to automatically
             // close resources after the try/catch/finally block
@@ -60,15 +61,9 @@ public class ReimbursementDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-                Reimbursement r = new Reimbursement();
-                rs.getInt("user_id");
-                rs.getInt("reim_id");
-                rs.getDouble("reim_cost");
-                rs.getString("reim_description");
-                rs.getString("reim_status");
-                //add address/location
-
-
+                Reimbursement r = new Reimbursement(rs.getInt("reim_id"),Status.valueOf(rs.getString("reim_status")),rs.getInt("reim_author_id"),
+                        rs.getInt("reim_resolver_id"), rs.getDouble("reim_cost"), rs.getString("reim_description"),
+                        rs.getDate("reim_date"), RType.valueOf(rs.getString("reim_status")), rs.getString("reim_message"), GType.valueOf(rs.getString("reim_grade")));
                 reim.add(r);
             }
             return reim;
@@ -82,26 +77,21 @@ public class ReimbursementDAO {
     public static List<Reimbursement> getByStatus(Status status) {
         List<Reimbursement> reim = new ArrayList<>();
         //this is our sql statement -> we want it to return all records from the table
-        String sql = "select * from reimbursements where reim_status =" + status+";";
+        String sql = "select * from reimbursements where reim_status = ?;";
 
         try (Connection conn = cu.getConnection()){// proper syntax for try with resources used to automatically
             // close resources after the try/catch/finally block
 
             //Prepare the Statement(Inside try block)
             PreparedStatement ps = conn.prepareStatement(sql);
-
+            ps.setString(1, status.toString());
             //Execute the statement and save the Result Set into an object
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-                Reimbursement r = new Reimbursement();
-                rs.getInt("user_id");
-                rs.getInt("reim_id");
-                rs.getString("reim_status");
-               // rs.getString("reim_description"); do I need to add all or just the ones I need?
-               // rs.getString("reim_status");
-
-
+                Reimbursement r = new Reimbursement(rs.getInt("reim_id"),Status.valueOf(rs.getString("reim_status")),rs.getInt("reim_author_id"),
+                        rs.getInt("reim_resolver_id"), rs.getDouble("reim_cost"), rs.getString("reim_description"),
+                        rs.getDate("reim_date"), RType.valueOf(rs.getString("reim_status")), rs.getString("reim_message"), GType.valueOf(rs.getString("reim_grade")));
                 reim.add(r);
             }
             return reim;
@@ -126,8 +116,8 @@ public class ReimbursementDAO {
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setString(1, unprocessedReimbursement.getDescription());
                 ps.setDouble(2, unprocessedReimbursement.getAmount());
-                ps.setInt(3, unprocessedReimbursement.getAuthor().getId());
-                ps.setInt(4, unprocessedReimbursement.getResolver().getId());
+                ps.setInt(3, unprocessedReimbursement.getAuthorId());
+                ps.setInt(4, unprocessedReimbursement.getResolverId());
                 ps.setString(5, unprocessedReimbursement.getStatus().toString());
                 ps.setInt(6, unprocessedReimbursement.getId());
 
@@ -146,7 +136,7 @@ public class ReimbursementDAO {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, resolver.getId());
             ps.setString(2, finalStatus.toString());
-            ps.setInt(3, unprocessedReimbursement.getAuthor().getId());
+            ps.setInt(3, unprocessedReimbursement.getAuthorId());
             ps.executeUpdate();
 
         } catch (UpdateUnsuccessfulException | SQLException e) {

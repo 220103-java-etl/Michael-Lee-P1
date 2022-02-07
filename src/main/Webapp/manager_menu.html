@@ -7,6 +7,32 @@
     <title>Finance Manager Menu</title>
 </head>
 <body>
-    <h1>Inside the Manager Menu</h1>
+    <h1>Welcome to the Finanace Manager Menu!</h1>
+    <p id="StatusSearch">  
+            <label>Search by Status:</label>
+            <select id="status" name="status">
+                <option value="">Please make a selection</option>
+                <option value="Employee">Approved</option>
+                <option value="Finance Manager">Pending</option>
+                <option value="Finance Manager">Denied</option>
+            </select>
+            <button type="button" id = "reim_id_button" onclick="SearchReim()">Search by Status</button>
+        </p><br><br><br><br><br>
+        <p id="usersearchpar">
+                <label>Search by Username:</label>
+                <input id ="Username_Search" type="text" placeholder='enter employee username'>
+                <button type="button" id = "search_button" onclick="SearchReim()">Search by Username</button>
+            </p><br><br><br><br><br>
+            <p id="searchPar">  
+                <form method="PUT">
+                    <label for="reim_id">Search by Reimbursement ID:</label>
+                   <input id ="reim_id" type="number" placeholder='input reimbursement id'>
+                    <button type="button" id = "id_button" onclick="SearchReim()">Search by ID</button>
+                </form><br><br><br><br>
+            </p>
+    <h3>Logout</h3>
+        <a href='http://localhost:8080/ERS-P1-Michael_Lee/welcome_page.html' target="self">
+            <button>Logout</button> 
+         </a>
 </body>
 </html>

@@ -22,8 +22,8 @@ public class AbstractReimbursement {
 
     private int id;
     private Status status;
-    private User author;
-    private User resolver;
+    private int authorId;
+    private int resolverId;
     private double amount;
     private String description;
     private Date date;
@@ -35,13 +35,13 @@ public class AbstractReimbursement {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount, String description, Date date,
+    public AbstractReimbursement(int id, Status status, int authorId, int resolverId, double amount, String description, Date date,
     RType type, String message, GType grade) {
         super();
         this.id = id;
         this.status = status;
-        this.author = author;
-        this.resolver = resolver;
+        this.authorId = authorId;
+        this.resolverId = resolverId;
         this.amount = amount;
         this.description = description;
         this.date = date;
@@ -75,20 +75,19 @@ public class AbstractReimbursement {
         return status.toString();
     }
 
-    public User getAuthor() {
-        return author;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthorId(int id) {
+        this.authorId = authorId;
     }
 
-    public User getResolver() {
-        return resolver;
+    public int getResolverId() {
+        return resolverId;
     }
 
-    public void setResolver(User resolver) {
-        this.resolver = resolver;
+    public void setResolver(int resolverId) {this.resolverId = resolverId;
     }
 
     public double getAmount() {
@@ -116,12 +115,12 @@ public class AbstractReimbursement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractReimbursement that = (AbstractReimbursement) o;
-        return id == that.id && Double.compare(that.amount, amount) == 0 && status == that.status && Objects.equals(author, that.author) && Objects.equals(resolver, that.resolver);
+        return id == that.id && Double.compare(that.amount, amount) == 0 && status == that.status && Objects.equals(authorId, that.authorId) && Objects.equals(resolverId, that.resolverId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, author, resolver, amount,description);
+        return Objects.hash(id, status, authorId, resolverId, amount,description);
     }
 
     @Override
@@ -129,8 +128,8 @@ public class AbstractReimbursement {
         return "AbstractReimbursement{" +
                 "id=" + id +
                 ", status=" + status +
-                ", author=" + author +
-                ", resolver=" + resolver +
+                ", author=" + authorId +
+                ", resolver=" + resolverId +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
                 ", date=" + date +

@@ -29,6 +29,7 @@ import java.util.List;
  */
 public class ReimbursementService {
        private  ReimbursementDAO reimbursementDAO = new ReimbursementDAO();
+
     /**
      * <ul>
      *     <li>Should ensure that the user is logged in as a Finance Manager</li>
@@ -58,6 +59,10 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbursementsByStatus(Status status) {
         List<Reimbursement> r = ReimbursementDAO.getByStatus(status);
+        return r;
+    }
+    public static List<Reimbursement> getReimbursementsById(int id) {
+        List<Reimbursement> r = ReimbursementDAO.getById(id);
         return r;
     }
 

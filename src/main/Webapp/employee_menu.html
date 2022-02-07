@@ -12,13 +12,22 @@
         <a href="http://localhost:8080/ERS-P1-Michael_Lee/reimbursement" target="self">
            <button>New</button></br></br>
         </a>
-        <form method="post">
-           <input name = "reim_id" type="integer" placeholder='input reimbursement id' target="self">
-            <button>Search</button> 
+        <p id="searchPar">  
+        <form method="PUT">
+           <input id ="reim_id" type="number" placeholder='input reimbursement id'>
+            <button type="button" id = "reim_id_button" onclick="SearchReim()">Search</button>
+            
+        </p><br><br>
+        <p id="allMyReim">
+            <form method="PUT">
+                <button type="button" id = "reim_id_button" onclick="SearchReim()">Get all my Reimbursements</button>
+                
+            </p><br><br>
         </form>
         <h3>Logout</h3>
-        <a href='http://localhost:8080/ERS-P1-Michael_Lee/welcome_page' target="self">
+        <a href='http://localhost:8080/ERS-P1-Michael_Lee/welcome_page.html' target="self">
             <button>Logout</button> 
          </a>
+<script> src="C:/Repos/RevatureP1Repo/ERS-P1-Michael_Lee/src/main/Webapp/domP1.js"</script> 
 </body>
 </html>
