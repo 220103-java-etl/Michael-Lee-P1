@@ -50,6 +50,7 @@ public class AbstractReimbursement {
         this.message = message;
     }
 
+
     public java.sql.Date getDate() {return (java.sql.Date) date;}
 
     public void setDate(Date date) {this.date = date;}
@@ -79,7 +80,7 @@ public class AbstractReimbursement {
         return authorId;
     }
 
-    public void setAuthorId(int id) {
+    public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 
@@ -128,8 +129,8 @@ public class AbstractReimbursement {
         return "AbstractReimbursement{" +
                 "id=" + id +
                 ", status=" + status +
-                ", author=" + authorId +
-                ", resolver=" + resolverId +
+                ", authorId=" + authorId +
+                ", resolverId=" + resolverId +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
                 ", date=" + date +

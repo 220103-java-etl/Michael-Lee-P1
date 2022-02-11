@@ -5,16 +5,16 @@ public enum GType {
     LETTER_GRADE{
         @Override
         public String toString(){
-            return "University Course";
+            return "Letter Grade";
         }
     },
     PRESENTATION{
         @Override
-        public String toString(){ return "Seminar";}
+        public String toString(){ return "Presentation";}
     },
     PASS_FAIL{
         @Override
-        public String toString() {return "CPC";}
+        public String toString() {return "Pass_Fail";}
     }
 }
 

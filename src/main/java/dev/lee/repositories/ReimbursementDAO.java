@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Locale;
 
 
 public class ReimbursementDAO {
@@ -17,7 +17,7 @@ public class ReimbursementDAO {
 
 
     public Reimbursement create(Reimbursement reim_to_create) {
-        String sql = "insert into reimbursements values(default, ?, ?, ?, ?, ?,?,?,?,?);";
+        String sql = "insert into reimbursements values(default, ?, ?, ?, ?, ?,?,?,?,?) returning *;";
         // insert questions marks and pass in parameters like getUsername
         try (Connection conn = cu.getConnection()) {// proper syntax for try with resources used to automatically
             // close resources after the try/catch/finally block
@@ -27,7 +27,7 @@ public class ReimbursementDAO {
             ps.setDouble(1, reim_to_create.getAmount());
             ps.setString(2, reim_to_create.getStatus().toString());
             ps.setInt(3, reim_to_create.getAuthorId());
-            ps.setInt(4,0);
+            ps.setInt(4, 1);
             ps.setDate(5, reim_to_create.getDate());
             ps.setString(6, reim_to_create.getType().toString());
             ps.setString(7, reim_to_create.getGrade().toString());
@@ -129,14 +129,14 @@ public class ReimbursementDAO {
         return unprocessedReimbursement;
     }
 
-    public static Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver){
-        String sql = "update reimbursements set reim_resolver = ?,reim_status = ?  where reim_id = ?";
+    public static Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, int resolverId){
+        String sql = "update reimbursements set reim_resolver_id = ?,reim_status = ?  where reim_id = ?";
         try (Connection conn = cu.getConnection()) {
 
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, resolver.getId());
+            ps.setInt(1, resolverId);
             ps.setString(2, finalStatus.toString());
-            ps.setInt(3, unprocessedReimbursement.getAuthorId());
+            ps.setInt(3, unprocessedReimbursement.getId());
             ps.executeUpdate();
 
         } catch (UpdateUnsuccessfulException | SQLException e) {
@@ -171,7 +171,33 @@ public class ReimbursementDAO {
         }
         return reim;
     }
+    public static List<Reimbursement> getAll() {
+        //return all reim from the DB
 
+        List<Reimbursement> reim = new ArrayList<>();
+        //this is our sql statement -> we want it to return all records from the table
+        String sql = "select * from reimbursements;";
+
+        try (Connection conn = cu.getConnection()){// proper syntax for try with resources used to automatically
+            // close resources after the try/catch/finally block
+
+            //Prepare the Statement(Inside try block)
+            PreparedStatement ps = conn.prepareStatement(sql);
+            //Execute the statement and save the Result Set into an object
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                Reimbursement r = new Reimbursement(rs.getInt("reim_id"),Status.valueOf(rs.getString("reim_status").toUpperCase(Locale.ROOT)),rs.getInt("reim_author_id"),
+                        rs.getInt("reim_resolver_id"), rs.getDouble("reim_cost"), rs.getString("reim_description"),
+                        rs.getDate("reim_date"), RType.valueOf(rs.getString("reim_type").toUpperCase(Locale.ROOT).replaceAll(" ","_")), rs.getString("reim_message"), GType.valueOf(rs.getString("reim_grade").toUpperCase(Locale.ROOT).replaceAll(" ","_")));
+                reim.add(r);
+            }
+            return reim;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
 

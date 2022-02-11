@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.lee.models.*;
 import dev.lee.services.ReimbursementService;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 public class ReimbursementServlet extends HttpServlet {
     ReimbursementService rs = new ReimbursementService();
@@ -97,14 +99,20 @@ public class ReimbursementServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Reimbursement r = om.readValue(request.getReader(),Reimbursement.class);
-        response.getWriter().write(om.writeValueAsString(ReimbursementService.getReimbursementsById(r.getId())));
+        response.setContentType("text/html");
+        Reimbursement r = om.readValue(request.getReader(), Reimbursement.class);
+        response.getWriter().write(om.writeValueAsString(ReimbursementService.process(r,r.getStatus(),r.getResolverId())));
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("reimbursement.html");
-    }
+        response.setContentType("text/html");
+
+            List<Reimbursement> reimbursementList = ReimbursementService.getAll();
+            System.out.println(reimbursementList);
+            response.getWriter().write(om.writeValueAsString(reimbursementList));
+        }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -119,9 +127,9 @@ public class ReimbursementServlet extends HttpServlet {
             String username = request.getParameter("username");
             double amount = Double.parseDouble(request.getParameter("amount"));
             String description = request.getParameter("description");
+            Date date = Date.valueOf(request.getParameter("date"));
             String type = request.getParameter("RType");
             String grade = request.getParameter("GType");
-            Date date = new Date(session.getCreationTime());
             String message = request.getParameter("message");
             //create user object
             User u = (User) session.getAttribute("logged_user");
@@ -134,9 +142,11 @@ public class ReimbursementServlet extends HttpServlet {
             r.setType(RType.valueOf(type));
             r.setDate(date);
             r.setMessage(message);
+            rs.createReimbursement(r);
+
             response.sendRedirect("employee_menu.html");
 
-            rs.createReimbursement(r);
+
 
             //System.out.println(u.getUsername()); have it as a check when testing login
             // System.out.println(u.getPassword());

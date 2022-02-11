@@ -22,7 +22,7 @@ public class Reimbursement extends AbstractReimbursement {
     }
 
 
-    public Reimbursement(int id, Status status, int authorId, int resolverId, double amount,String description, Date date, RType type, String message, GType grade) {
+    public Reimbursement(int id, Status status, int authorId, int resolverId, double amount, String description, Date date, RType type, String message, GType grade) {
         super(id, status, authorId, resolverId, amount, description, date, type, message, grade);
     }
 }

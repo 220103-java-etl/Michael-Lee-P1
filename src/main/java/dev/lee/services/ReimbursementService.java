@@ -45,8 +45,8 @@ public class ReimbursementService {
      * After processing, the reimbursement will have its status changed to either APPROVED or DENIED.
      */
 
-    public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver) {
-        ReimbursementDAO.process(unprocessedReimbursement, finalStatus, resolver);
+    public static Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, int resolverId) {
+        ReimbursementDAO.process(unprocessedReimbursement, finalStatus, resolverId);
         return unprocessedReimbursement;
     }
     public Reimbursement createReimbursement(Reimbursement newReim){
@@ -71,4 +71,7 @@ public Reimbursement addMessage(Reimbursement reim ,String message){
     reim.setMessage(message);
     return reim;
 }
+public static List<Reimbursement> getAll(){
+        return ReimbursementDAO.getAll();
+    }
 }

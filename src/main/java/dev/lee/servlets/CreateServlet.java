@@ -44,12 +44,12 @@ UserService us = new UserService();
             u.setLastName(lastName);
             if (role.equals("Finance Manager")) {
                 u.setRole(Role.FINANCE_MANAGER);
-                session.setAttribute("logged_manager", u);
+                session.setAttribute("logged_user", u);
                 response.sendRedirect("manager_menu.html");
                 us.createManager(u);
             } else {
                 u.setRole(Role.EMPLOYEE);
-                session.setAttribute("logged_employee", u);
+                session.setAttribute("logged_user", u);
                 response.sendRedirect("employee_menu.html");
                 us.createEmployee(u);
             }
